@@ -28,14 +28,14 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Deploy to server
-        uses: appleboy/ssh-action@v0.1.5
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: 22
-          script: |
-            cd /home/ubuntu/new  # Replace with your app's directory on the server
-            git pull origin main   
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: 22
+        script: |
+          cd /home/ubuntu/new  # Replace with your app's directory on the server
+          git pull origin main   
 
 
