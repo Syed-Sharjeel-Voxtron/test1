@@ -14,19 +14,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Step 2: Add SSH key for EC2 instance (use the secret added in GitHub)
-    - name: Add SSH Key
-      run: |
-        echo "$SERVER_SSH_KEY" 
-      env:
-        AWS_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}  # Make sure this secret is added in GitHub
-
-    # Step 3: Push code to the EC2 instance
-    - name: Deploy to EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@13.211.28.15 << EOF
-          cd /home/ubuntu/new  # Navigate to your project directory on the EC2 instance
-          git pull origin master      # Pull the latest changes from the main branch
-          # Optionally, run any build or deployment scripts here
-          # For example, you can restart your app or server
-        EOF
+    - name: SSH into EC2 and run commands
+      uses: appleboy/ssh-action@master
+      with:
+       host: 13.211.28.15
+       username: ubuntu
+       key: ${{ secrets.SERVER_SSH_KEY }}
+       script: |
+       # Commands to run on the EC2 instance
+        echo "Hello, EC2!"
+        ls
